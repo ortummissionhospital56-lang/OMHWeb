@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}About us | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>About us</h1></div></section>
+<section class="section">
+  <div class="container narrow">
+    {{ site.about_text|default:"Add your About us text from the admin site (Site settings)."|linebreaks }}
+    {% if site.mission %}<h3>Our mission</h3>{{ site.mission|linebreaks }}{% endif %}
+    {% if site.vision %}<h3>Our vision</h3>{{ site.vision|linebreaks }}{% endif %}
+  </div>
+</section>
+{% endblock %}

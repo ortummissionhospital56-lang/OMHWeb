@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{{ post.title }}</h1><p>{{ post.published_at|date:"j F Y" }}</p></div></section>
+<section class="section">
+  <div class="container narrow">
+    {% if post.image %}<img class="article-img" src="{{ post.image.url }}" alt="{{ post.title }}">{% endif %}
+    {{ post.body|linebreaks }}
+    <p><a href="{% url 'news' %}">← Back to news</a></p>
+  </div>
+</section>
+{% endblock %}

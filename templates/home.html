@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero" {% if site.hero_image %}style="background-image: linear-gradient(rgba(11,60,140,.75), rgba(110,15,40,.7)), url('{{ site.hero_image.url }}');"{% endif %}>
+  <div class="container">
+    <h1>{{ site.hospital_name|default:"Your Hospital Name" }}</h1>
+    <p>{{ site.tagline }}</p>
+    <a class="btn btn-light" href="{% url 'contact' %}">Contact us</a>
+    <a class="btn btn-outline" href="{% url 'about' %}">Learn more</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow center">
+    <h2>{{ site.intro_title|default:"Welcome to our hospital" }}</h2>
+    <p>{{ site.intro_text|default:"Add your introduction from the admin site (Site settings)."|linebreaksbr }}</p>
+  </div>
+</section>
+
+{% if services %}
+<section class="section alt">
+  <div class="container">
+    <h2 class="center">Our services</h2>
+    <div class="grid">
+      {% for s in services %}
+      <div class="card service">
+        <div class="icon">{{ s.icon }}</div>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if gallery %}
+<section class="section">
+  <div class="container">
+    <h2 class="center">Gallery</h2>
+    <div class="gallery">
+      {% for g in gallery %}
+      <figure>
+        <img src="{{ g.image.url }}" alt="{{ g.caption }}" loading="lazy">
+        {% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if staff %}
+<section class="section alt">
+  <div class="container">
+    <h2 class="center">Our management</h2>
+    <div class="grid staff">
+      {% for m in staff %}
+      <div class="card person">
+        {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}">{% else %}<div class="noimg">👤</div>{% endif %}
+        <h3>{{ m.name }}</h3>
+        <p class="role">{{ m.role }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}News | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>News</h1></div></section>
+<section class="section">
+  <div class="container">
+    <div class="grid">
+      {% for post in page %}
+      <article class="card news">
+        {% if post.image %}<img src="{{ post.image.url }}" alt="{{ post.title }}">{% endif %}
+        <div class="news-body">
+          <p class="muted">{{ post.published_at|date:"j F Y" }}</p>
+          <h3><a href="{% url 'news_detail' post.slug %}">{{ post.title }}</a></h3>
+          <p>{{ post.summary }}</p>
+          <a href="{% url 'news_detail' post.slug %}">Read more →</a>
+        </div>
+      </article>
+      {% empty %}
+      <p class="center muted">No news yet.</p>
+      {% endfor %}
+    </div>
+    {% if page.has_other_pages %}
+    <div class="pager">
+      {% if page.has_previous %}<a class="btn" href="?page={{ page.previous_page_number }}">← Newer</a>{% endif %}
+      <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+      {% if page.has_next %}<a class="btn" href="?page={{ page.next_page_number }}">Older →</a>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

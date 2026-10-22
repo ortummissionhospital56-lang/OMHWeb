@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Careers | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>Careers</h1></div></section>
+<section class="section">
+  <div class="container narrow">
+    {% for job in jobs %}
+    <details class="card job">
+      <summary>
+        <strong>{{ job.title }}</strong>
+        <span class="muted">{{ job.department }}{% if job.deadline %} · Apply by {{ job.deadline|date:"j M Y" }}{% endif %}</span>
+      </summary>
+      <div class="job-body">
+        {{ job.description|linebreaks }}
+        {% if job.requirements %}<h4>Requirements</h4>{{ job.requirements|linebreaks }}{% endif %}
+        {% if site.email %}<a class="btn" href="mailto:{{ site.email }}?subject=Application: {{ job.title|urlencode }}">Apply by email</a>{% endif %}
+      </div>
+    </details>
+    {% empty %}
+    <p class="center muted">There are no open positions at the moment. Please check back soon.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Contacts | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>Contacts</h1></div></section>
+<section class="section">
+  <div class="container two-col">
+    <div>
+      <h3>Get in touch</h3>
+      {% if site.address %}<p>📍 {{ site.address }}</p>{% endif %}
+      {% if site.phone %}<p>📞 {{ site.phone }}</p>{% endif %}
+      {% if site.emergency_phone %}<p>🚑 Emergency: {{ site.emergency_phone }}</p>{% endif %}
+      {% if site.email %}<p>✉️ {{ site.email }}</p>{% endif %}
+      {% if site.working_hours %}<p>🕒 {{ site.working_hours }}</p>{% endif %}
+    </div>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

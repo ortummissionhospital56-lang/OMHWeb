@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Feedback | {{ site.hospital_name|default:"Hospital" }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>Share your feedback</h1><p>We value your opinion and use it to improve our services.</p></div></section>
+<section class="section">
+  <div class="container narrow">
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn" type="submit">Submit feedback</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

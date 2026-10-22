@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.hospital_name|default:"Your Hospital Name" }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span>{% if site.emergency_phone %}Emergency: <strong>{{ site.emergency_phone }}</strong>{% endif %}</span>
+      <span>{{ site.working_hours }}</span>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="{% url 'home' %}">
+        {% if site.logo %}<img src="{{ site.logo.url }}" alt="Logo">{% endif %}
+        <span>
+          <strong>{{ site.hospital_name|default:"Your Hospital Name" }}</strong>
+          <small>{{ site.tagline }}</small>
+        </span>
+      </a>
+      <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+      <nav id="menu" class="menu">
+        {% with current=request.resolver_match.url_name %}
+        <a href="{% url 'home' %}" class="{% if current == 'home' %}active{% endif %}">Home</a>
+        <a href="{% url 'about' %}" class="{% if current == 'about' %}active{% endif %}">About us</a>
+        <a href="{% url 'contact' %}" class="{% if current == 'contact' %}active{% endif %}">Contacts</a>
+        <a href="{% url 'careers' %}" class="{% if current == 'careers' %}active{% endif %}">Careers</a>
+        <a href="{% url 'news' %}" class="{% if current == 'news' or current == 'news_detail' %}active{% endif %}">News</a>
+        <a href="{% url 'downloads' %}" class="{% if current == 'downloads' %}active{% endif %}">Downloads</a>
+        {% endwith %}
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="container">
+      {% for message in messages %}<div class="alert">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+
+  <a class="feedback-btn" href="{% url 'feedback' %}">💬 Feedback</a>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>{{ site.hospital_name|default:"Your Hospital Name" }}</h4>
+        <p>{{ site.tagline }}</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        {% if site.address %}<p>{{ site.address }}</p>{% endif %}
+        {% if site.phone %}<p>Tel: {{ site.phone }}</p>{% endif %}
+        {% if site.email %}<p>{{ site.email }}</p>{% endif %}
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <p><a href="{% url 'careers' %}">Careers</a> · <a href="{% url 'news' %}">News</a></p>
+        <p><a href="{% url 'downloads' %}">Downloads</a> · <a href="{% url 'feedback' %}">Feedback</a></p>
+      </div>
+    </div>
+    <div class="copy">&copy; {% now "Y" %} {{ site.hospital_name|default:"Your Hospital Name" }}. All rights reserved.</div>
+  </footer>
+</body>
+</html>
